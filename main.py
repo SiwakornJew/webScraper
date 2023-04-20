@@ -1,10 +1,12 @@
+
 from fastapi import FastAPI
-from getTemple import getT
+from getTemple import getTem
 
 app = FastAPI()
 
 
-@app.get("/")
-def getTemple():
-    li_match = getT()
-    return {"temple": li_match}
+@app.get("/temple/{provide_name}")
+async def getTemple(provide_name):
+    li_match = getTem(provide_name)
+
+    return li_match
