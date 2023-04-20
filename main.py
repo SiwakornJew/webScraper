@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from getTemple import getT
-import requests
-import re
+
 app = FastAPI()
 
 
