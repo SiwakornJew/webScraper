@@ -69,15 +69,16 @@ def getTem(province):
     elif province == "PrachinBuri":
         response = requests.get(url)
         html_content = response.text
+        li = re.findall('>(.*?)<', html_content)
+        li = [result for result in li if re.match('(^วัด)', result)]
+        li = [result for result in li if re.match('(?!วัดราษฏร์)', result)]
 
-        li_match = re.findall('>(.*?)<', html_content)
-        li_match = [e for e in li_match if re.match('^วัด', e)]
-        li_match = [e for e in li_match if re.match('(?!วัดราษฏร์ใน)', e)]
-        li_match = [e for e in li_match if re.match('(?!วัดราษฏร์มหา)', e)]
-        li_match = [e for e in li_match if re.match('(?!วัดหลวงใน)', e)]
-        li_match = [e for e in li_match if re.match(
-            '(?!วัดราษฎร์ธรรม)', e)]
-        li_match = [re.sub('\([^)]*\)', '', e) for e in li_match]
-        li_match = li_match[:-4]
-        li_match = list(set(li_match))
-        return li_match
+        temple_names = []
+        pattern = re.compile(r"\S+")
+        for temple in li:
+            match = pattern.search(temple)
+            if match:
+                temple_names.append(match.group(0))
+
+        temple_name = temple_names[:-4]
+        return temple_name
